@@ -1,0 +1,499 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		87B9FB7220CD9D490033739B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87B9FB7120CD9D490033739B /* Cocoa.framework */; };
+		87B9FB7C20CD9D490033739B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87B9FB7A20CD9D490033739B /* InfoPlist.strings */; };
+		87B9FB7E20CD9D490033739B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B9FB7D20CD9D490033739B /* main.m */; };
+		87B9FB8220CD9D490033739B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87B9FB8020CD9D490033739B /* Credits.rtf */; };
+		87B9FB8520CD9D490033739B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B9FB8420CD9D490033739B /* AppDelegate.m */; };
+		87B9FB8820CD9D490033739B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87B9FB8620CD9D490033739B /* MainMenu.xib */; };
+		87B9FB8A20CD9D490033739B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B9FB8920CD9D490033739B /* Images.xcassets */; };
+		87B9FB9120CD9D490033739B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87B9FB9020CD9D490033739B /* XCTest.framework */; };
+		87B9FB9220CD9D490033739B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87B9FB7120CD9D490033739B /* Cocoa.framework */; };
+		87B9FB9A20CD9D490033739B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87B9FB9820CD9D490033739B /* InfoPlist.strings */; };
+		87B9FB9C20CD9D490033739B /* Apple_Microcode_ToolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B9FB9B20CD9D490033739B /* Apple_Microcode_ToolTests.m */; };
+		87B9FBA720CD9D830033739B /* ROMParser.c in Sources */ = {isa = PBXBuildFile; fileRef = 87B9FBA620CD9D830033739B /* ROMParser.c */; };
+		87B9FBAC20CE17320033739B /* MicrocodeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B9FBAA20CE17320033739B /* MicrocodeEditor.m */; };
+		87B9FBAD20CE17320033739B /* MicrocodeEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87B9FBAB20CE17320033739B /* MicrocodeEditor.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		87B9FB9320CD9D490033739B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87B9FB6620CD9D490033739B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87B9FB6D20CD9D490033739B;
+			remoteInfo = "Apple Microcode Tool";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		87B9FB6E20CD9D490033739B /* Apple Microcode Tool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apple Microcode Tool.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		87B9FB7120CD9D490033739B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		87B9FB7420CD9D490033739B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		87B9FB7520CD9D490033739B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		87B9FB7620CD9D490033739B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		87B9FB7920CD9D490033739B /* Apple Microcode Tool-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Apple Microcode Tool-Info.plist"; sourceTree = "<group>"; };
+		87B9FB7B20CD9D490033739B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		87B9FB7D20CD9D490033739B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		87B9FB7F20CD9D490033739B /* Apple Microcode Tool-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Apple Microcode Tool-Prefix.pch"; sourceTree = "<group>"; };
+		87B9FB8120CD9D490033739B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		87B9FB8320CD9D490033739B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		87B9FB8420CD9D490033739B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		87B9FB8920CD9D490033739B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		87B9FB8F20CD9D490033739B /* Apple Microcode ToolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Apple Microcode ToolTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		87B9FB9020CD9D490033739B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		87B9FB9720CD9D490033739B /* Apple Microcode ToolTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Apple Microcode ToolTests-Info.plist"; sourceTree = "<group>"; };
+		87B9FB9920CD9D490033739B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		87B9FB9B20CD9D490033739B /* Apple_Microcode_ToolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apple_Microcode_ToolTests.m; sourceTree = "<group>"; };
+		87B9FBA520CD9D4F0033739B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		87B9FBA620CD9D830033739B /* ROMParser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ROMParser.c; sourceTree = "<group>"; };
+		87B9FBA820CD9D8E0033739B /* ROMParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ROMParser.h; sourceTree = "<group>"; };
+		87B9FBA920CE17320033739B /* MicrocodeEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicrocodeEditor.h; sourceTree = "<group>"; };
+		87B9FBAA20CE17320033739B /* MicrocodeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MicrocodeEditor.m; sourceTree = "<group>"; };
+		87B9FBAB20CE17320033739B /* MicrocodeEditor.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MicrocodeEditor.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		87B9FB6B20CD9D490033739B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B9FB7220CD9D490033739B /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87B9FB8C20CD9D490033739B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B9FB9220CD9D490033739B /* Cocoa.framework in Frameworks */,
+				87B9FB9120CD9D490033739B /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		87B9FB6520CD9D490033739B = {
+			isa = PBXGroup;
+			children = (
+				87B9FB7720CD9D490033739B /* Apple Microcode Tool */,
+				87B9FB9520CD9D490033739B /* Apple Microcode ToolTests */,
+				87B9FB7020CD9D490033739B /* Frameworks */,
+				87B9FB6F20CD9D490033739B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		87B9FB6F20CD9D490033739B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				87B9FB6E20CD9D490033739B /* Apple Microcode Tool.app */,
+				87B9FB8F20CD9D490033739B /* Apple Microcode ToolTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		87B9FB7020CD9D490033739B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				87B9FB7120CD9D490033739B /* Cocoa.framework */,
+				87B9FB9020CD9D490033739B /* XCTest.framework */,
+				87B9FB7320CD9D490033739B /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		87B9FB7320CD9D490033739B /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				87B9FB7420CD9D490033739B /* AppKit.framework */,
+				87B9FB7520CD9D490033739B /* CoreData.framework */,
+				87B9FB7620CD9D490033739B /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		87B9FB7720CD9D490033739B /* Apple Microcode Tool */ = {
+			isa = PBXGroup;
+			children = (
+				87B9FB8320CD9D490033739B /* AppDelegate.h */,
+				87B9FB8420CD9D490033739B /* AppDelegate.m */,
+				87B9FB8620CD9D490033739B /* MainMenu.xib */,
+				87B9FBA920CE17320033739B /* MicrocodeEditor.h */,
+				87B9FBAA20CE17320033739B /* MicrocodeEditor.m */,
+				87B9FBAB20CE17320033739B /* MicrocodeEditor.xib */,
+				87B9FBA620CD9D830033739B /* ROMParser.c */,
+				87B9FBA820CD9D8E0033739B /* ROMParser.h */,
+				87B9FB8920CD9D490033739B /* Images.xcassets */,
+				87B9FB7820CD9D490033739B /* Supporting Files */,
+			);
+			path = "Apple Microcode Tool";
+			sourceTree = "<group>";
+		};
+		87B9FB7820CD9D490033739B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				87B9FB7920CD9D490033739B /* Apple Microcode Tool-Info.plist */,
+				87B9FB7A20CD9D490033739B /* InfoPlist.strings */,
+				87B9FB7D20CD9D490033739B /* main.m */,
+				87B9FB7F20CD9D490033739B /* Apple Microcode Tool-Prefix.pch */,
+				87B9FB8020CD9D490033739B /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		87B9FB9520CD9D490033739B /* Apple Microcode ToolTests */ = {
+			isa = PBXGroup;
+			children = (
+				87B9FB9B20CD9D490033739B /* Apple_Microcode_ToolTests.m */,
+				87B9FB9620CD9D490033739B /* Supporting Files */,
+			);
+			path = "Apple Microcode ToolTests";
+			sourceTree = "<group>";
+		};
+		87B9FB9620CD9D490033739B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				87B9FB9720CD9D490033739B /* Apple Microcode ToolTests-Info.plist */,
+				87B9FB9820CD9D490033739B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		87B9FB6D20CD9D490033739B /* Apple Microcode Tool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87B9FB9F20CD9D490033739B /* Build configuration list for PBXNativeTarget "Apple Microcode Tool" */;
+			buildPhases = (
+				87B9FB6A20CD9D490033739B /* Sources */,
+				87B9FB6B20CD9D490033739B /* Frameworks */,
+				87B9FB6C20CD9D490033739B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Apple Microcode Tool";
+			productName = "Apple Microcode Tool";
+			productReference = 87B9FB6E20CD9D490033739B /* Apple Microcode Tool.app */;
+			productType = "com.apple.product-type.application";
+		};
+		87B9FB8E20CD9D490033739B /* Apple Microcode ToolTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87B9FBA220CD9D490033739B /* Build configuration list for PBXNativeTarget "Apple Microcode ToolTests" */;
+			buildPhases = (
+				87B9FB8B20CD9D490033739B /* Sources */,
+				87B9FB8C20CD9D490033739B /* Frameworks */,
+				87B9FB8D20CD9D490033739B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				87B9FB9420CD9D490033739B /* PBXTargetDependency */,
+			);
+			name = "Apple Microcode ToolTests";
+			productName = "Apple Microcode ToolTests";
+			productReference = 87B9FB8F20CD9D490033739B /* Apple Microcode ToolTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		87B9FB6620CD9D490033739B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "dosdude1 Apps";
+				TargetAttributes = {
+					87B9FB8E20CD9D490033739B = {
+						TestTargetID = 87B9FB6D20CD9D490033739B;
+					};
+				};
+			};
+			buildConfigurationList = 87B9FB6920CD9D490033739B /* Build configuration list for PBXProject "Apple Microcode Tool" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 87B9FB6520CD9D490033739B;
+			productRefGroup = 87B9FB6F20CD9D490033739B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				87B9FB6D20CD9D490033739B /* Apple Microcode Tool */,
+				87B9FB8E20CD9D490033739B /* Apple Microcode ToolTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		87B9FB6C20CD9D490033739B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B9FB7C20CD9D490033739B /* InfoPlist.strings in Resources */,
+				87B9FBAD20CE17320033739B /* MicrocodeEditor.xib in Resources */,
+				87B9FB8A20CD9D490033739B /* Images.xcassets in Resources */,
+				87B9FB8220CD9D490033739B /* Credits.rtf in Resources */,
+				87B9FB8820CD9D490033739B /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87B9FB8D20CD9D490033739B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B9FB9A20CD9D490033739B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		87B9FB6A20CD9D490033739B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B9FBAC20CE17320033739B /* MicrocodeEditor.m in Sources */,
+				87B9FB8520CD9D490033739B /* AppDelegate.m in Sources */,
+				87B9FBA720CD9D830033739B /* ROMParser.c in Sources */,
+				87B9FB7E20CD9D490033739B /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87B9FB8B20CD9D490033739B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B9FB9C20CD9D490033739B /* Apple_Microcode_ToolTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		87B9FB9420CD9D490033739B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87B9FB6D20CD9D490033739B /* Apple Microcode Tool */;
+			targetProxy = 87B9FB9320CD9D490033739B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		87B9FB7A20CD9D490033739B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87B9FB7B20CD9D490033739B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		87B9FB8020CD9D490033739B /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87B9FB8120CD9D490033739B /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		87B9FB8620CD9D490033739B /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87B9FBA520CD9D4F0033739B /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		87B9FB9820CD9D490033739B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87B9FB9920CD9D490033739B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		87B9FB9D20CD9D490033739B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		87B9FB9E20CD9D490033739B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		87B9FBA020CD9D490033739B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apple Microcode Tool/Apple Microcode Tool-Prefix.pch";
+				INFOPLIST_FILE = "Apple Microcode Tool/Apple Microcode Tool-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		87B9FBA120CD9D490033739B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apple Microcode Tool/Apple Microcode Tool-Prefix.pch";
+				INFOPLIST_FILE = "Apple Microcode Tool/Apple Microcode Tool-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		87B9FBA320CD9D490033739B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Apple Microcode Tool.app/Contents/MacOS/Apple Microcode Tool";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apple Microcode Tool/Apple Microcode Tool-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Apple Microcode ToolTests/Apple Microcode ToolTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		87B9FBA420CD9D490033739B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Apple Microcode Tool.app/Contents/MacOS/Apple Microcode Tool";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apple Microcode Tool/Apple Microcode Tool-Prefix.pch";
+				INFOPLIST_FILE = "Apple Microcode ToolTests/Apple Microcode ToolTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		87B9FB6920CD9D490033739B /* Build configuration list for PBXProject "Apple Microcode Tool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87B9FB9D20CD9D490033739B /* Debug */,
+				87B9FB9E20CD9D490033739B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87B9FB9F20CD9D490033739B /* Build configuration list for PBXNativeTarget "Apple Microcode Tool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87B9FBA020CD9D490033739B /* Debug */,
+				87B9FBA120CD9D490033739B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		87B9FBA220CD9D490033739B /* Build configuration list for PBXNativeTarget "Apple Microcode ToolTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87B9FBA320CD9D490033739B /* Debug */,
+				87B9FBA420CD9D490033739B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 87B9FB6620CD9D490033739B /* Project object */;
+}
