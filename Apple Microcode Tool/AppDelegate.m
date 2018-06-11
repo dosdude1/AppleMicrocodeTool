@@ -33,9 +33,26 @@
             openMCEditors = [[NSMutableArray alloc] init];
         }
         MicrocodeEditor *mce = [[MicrocodeEditor alloc] initWithROMAtPath:selectedFile];
-        [openMCEditors addObject:mce];
-        [mce showWindow:self];
+        BOOL open = NO;
+        for (MicrocodeEditor *m in openMCEditors)
+        {
+            if ([m isEqualTo:mce])
+            {
+                open = YES;
+                [m.window makeKeyAndOrderFront:self];
+            }
+        }
+        if (!open)
+        {
+            mce.delegate = self;
+            [openMCEditors addObject:mce];
+            [mce showWindow:self];
+        }
     }
+}
+-(void)microcodeEditorWillClose:(id)editor
+{
+    [openMCEditors removeObject:editor];
 }
 
 @end

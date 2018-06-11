@@ -9,12 +9,20 @@
 #import <Cocoa/Cocoa.h>
 #include "ROMParser.h"
 
-@interface MicrocodeEditor : NSWindowController <NSTableViewDataSource, NSTableViewDelegate>
+@protocol MicrocodeEditorDelegate <NSObject>
+@optional
+-(void)microcodeEditorWillClose:(id)editor;
+@end
+
+@interface MicrocodeEditor : NSWindowController <NSTableViewDataSource, NSTableViewDelegate, NSWindowDelegate>
 {
-    NSString *romPath;
     NSMutableArray *microcodes;
 }
+@property (nonatomic, strong) id <MicrocodeEditorDelegate> delegate;
 -(instancetype)initWithROMAtPath:(NSString *)inRomPath;
+@property (strong) NSString *romPath;
 @property (strong) IBOutlet NSTableView *microcodeTable;
+-(BOOL)isEqualTo:(MicrocodeEditor *)object;
 
 @end
+

@@ -26,7 +26,9 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    [self.window setTitle:[romPath lastPathComponent]];
+    [self.window setDelegate:self];
+    [self.window setTitleWithRepresentedFilename:self.romPath];
+    [self.window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [self.microcodeTable setDelegate:self];
     [self.microcodeTable setDataSource:self];
 }
@@ -39,14 +41,14 @@
 -(instancetype)initWithROMAtPath:(NSString *)inRomPath
 {
     self = [self init];
-    romPath = inRomPath;
+    self.romPath = inRomPath;
     [self parseROM];
     return self;
 }
 -(void)parseROM
 {
     microcodes = [[NSMutableArray alloc] init];
-    FILE *rom = fopen([romPath UTF8String], "rb");
+    FILE *rom = fopen([self.romPath UTF8String], "rb");
     long fsize;
 	fseek(rom, 0, SEEK_END);
 	fsize = ftell(rom);
@@ -100,4 +102,13 @@
     }
     return nil;
 }
+-(BOOL)isEqualTo:(MicrocodeEditor *)object
+{
+    return ([object.romPath isEqualToString:self.romPath]);
+}
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [self.delegate microcodeEditorWillClose:self];
+}
+
 @end
