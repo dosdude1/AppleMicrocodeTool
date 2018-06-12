@@ -18,6 +18,10 @@
 {
     return YES;
 }
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+    [self openFile:[NSURL URLWithString:[[filenames objectAtIndex:0] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+}
 - (IBAction)openROMFile:(id)sender
 {
     NSOpenPanel *open = [[NSOpenPanel alloc] init];
@@ -27,27 +31,32 @@
     NSInteger result = [open runModal];
     if (result == NSOKButton)
     {
-        NSString *selectedFile = [[open URL] path];
-        if (!openMCEditors)
+        [self openFile:[open URL]];
+    }
+}
+-(void)openFile:(NSURL *)fileURL
+{
+    NSString *selectedFile = [fileURL path];
+    if (!openMCEditors)
+    {
+        openMCEditors = [[NSMutableArray alloc] init];
+    }
+    MicrocodeEditor *mce = [[MicrocodeEditor alloc] initWithROMAtPath:selectedFile];
+    BOOL isOpen = NO;
+    for (MicrocodeEditor *m in openMCEditors)
+    {
+        if ([m isEqualTo:mce])
         {
-            openMCEditors = [[NSMutableArray alloc] init];
+            isOpen = YES;
+            [m.window makeKeyAndOrderFront:self];
         }
-        MicrocodeEditor *mce = [[MicrocodeEditor alloc] initWithROMAtPath:selectedFile];
-        BOOL open = NO;
-        for (MicrocodeEditor *m in openMCEditors)
-        {
-            if ([m isEqualTo:mce])
-            {
-                open = YES;
-                [m.window makeKeyAndOrderFront:self];
-            }
-        }
-        if (!open)
-        {
-            mce.delegate = self;
-            [openMCEditors addObject:mce];
-            [mce showWindow:self];
-        }
+    }
+    if (!isOpen)
+    {
+        mce.delegate = self;
+        [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:fileURL];
+        [openMCEditors addObject:mce];
+        [mce showWindow:self];
     }
 }
 -(void)microcodeEditorWillClose:(id)editor

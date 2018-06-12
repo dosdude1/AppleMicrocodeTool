@@ -26,6 +26,8 @@ typedef struct {
     date date;
     unsigned int crc;
     char platformID[50];
+    unsigned int offset;
+    unsigned int size;
 }microcode_entry;
 
 off_t locateMicrocodeBlockOffset(char *romBuf, long bufSize, uint8_t index);

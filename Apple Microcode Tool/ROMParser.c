@@ -85,7 +85,6 @@ void getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[])
                     sprintf(platform, "%s%d", platform, j);
 				}
 			}
-            printf("Platform ID: %s\n", platform);
             int exists = 0;
             for (int c=0; c < ct; c++)
             {
@@ -104,15 +103,10 @@ void getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[])
                 entries[ct].date.day = romBuf[i+10];
                 entries[ct].crc = *(unsigned int*)(&romBuf[i+16]);
                 strcpy(entries[ct].platformID, platform);
+                entries[ct].offset = i;
+                entries[ct].size = totalsize;
                 ct++;
             }
-            
-            
-			printf("CPUID=%X UpdateRev=%02X %02X%02X/%02X/%02X Checksum=%08X", *(unsigned int*)(&romBuf[i+12]), *(unsigned int*)(&romBuf[i+4]), romBuf[i+9], romBuf[i+8], romBuf[i+11], romBuf[i+10], *(unsigned int*)(&romBuf[i+16]));
-            
-            
-			printf("\n");
-            
 		}
 	}
 }

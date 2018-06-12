@@ -67,11 +67,9 @@
         if (entries[i].cpuid != 0)
         {
             NSString *date = [NSString stringWithFormat:@"%02X%02X/%02X/%02X", entries[i].date.yearpre, entries[i].date.yearsuf, entries[i].date.month, entries[i].date.day];
-            NSLog(@"Date is %@", date);
-            [microcodes addObject:@{@"cpuid": [NSNumber numberWithUnsignedInt:entries[i].cpuid], @"revision":[NSNumber numberWithUnsignedInt:entries[i].updateRev], @"checksum":[NSNumber numberWithUnsignedInt:entries[i].crc], @"date": date, @"platformid": [NSString stringWithFormat:@"%s", entries[i].platformID]}];
+            [microcodes addObject:@{@"cpuid": [NSNumber numberWithUnsignedInt:entries[i].cpuid], @"revision":[NSNumber numberWithUnsignedInt:entries[i].updateRev], @"checksum":[NSNumber numberWithUnsignedInt:entries[i].crc], @"date": date, @"platformid": [NSString stringWithFormat:@"%s", entries[i].platformID], @"offset":[NSNumber numberWithUnsignedInt:entries[i].offset], @"size":[NSNumber numberWithUnsignedInt:entries[i].size]}];
         }
     }
-    printf("Entry 1 CPUID: %X\n", entries[0].cpuid);
     [self.microcodeTable reloadData];
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -99,6 +97,14 @@
     else if ([[tableColumn identifier] isEqualToString:@"platformid"])
     {
         return [NSString stringWithFormat:@"%@", [[microcodes objectAtIndex:row] objectForKey:@"platformid"]];
+    }
+    else if ([[tableColumn identifier] isEqualToString:@"offset"])
+    {
+        return [NSString stringWithFormat:@"%02lX", [[[microcodes objectAtIndex:row] objectForKey:@"offset"] unsignedIntegerValue]];
+    }
+    else if ([[tableColumn identifier] isEqualToString:@"size"])
+    {
+        return [NSString stringWithFormat:@"%02lX", [[[microcodes objectAtIndex:row] objectForKey:@"size"] unsignedIntegerValue]];
     }
     return nil;
 }
