@@ -40,7 +40,6 @@ off_t locateMicrocodeBlockOffset(char *romBuf, long bufSize, uint8_t index)
         if (found == 1)
         {
             offset = i+OFFSET_FROM_SEARCH_DATA;
-            printf("Found at offset: %lld\n", offset);
             numFound ++;
             if (index + 1 == numFound)
             {
@@ -50,9 +49,43 @@ off_t locateMicrocodeBlockOffset(char *romBuf, long bufSize, uint8_t index)
     }
 	return offset;
 }
-void getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[])
+off_t locateEndOffsetOfLastSection(char *romBuf, long bufSize)
+{
+    uint8_t OFFSET_FROM_SEARCH_DATA = 34;
+    uint8_t BYTES_TO_SEARCH = 19;
+    uint8_t bytes [] = {0x8D, 0x2B, 0xF1, 0xFF, 0x96, 0x76, 0x8B, 0x4C, 0xA9, 0x85, 0x27, 0x47, 0x07, 0x5B, 0x4F, 0x50, 0x00, 0x00, 0x03};
+    off_t offset = -1;
+    int ct = 0;
+    int found = 0;
+    for (int i=0; i<bufSize; i++)
+    {
+        if ((uint8_t)romBuf[i] == bytes[ct])
+        {
+            if (ct < BYTES_TO_SEARCH)
+            {
+                ct++;
+            }
+            if (ct == BYTES_TO_SEARCH)
+            {
+                found = 1;
+            }
+        }
+        else
+        {
+            found = 0;
+            ct = 0;
+        }
+        if (found == 1)
+        {
+            offset = i - OFFSET_FROM_SEARCH_DATA;
+        }
+    }
+	return offset;
+}
+int getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[])
 {
     int ct=0;
+    int lastOffset = 0;
     for (int i=0; i<bufSize-2000; i++)
 	{
 		if (
@@ -107,6 +140,14 @@ void getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[])
                 entries[ct].size = totalsize;
                 ct++;
             }
+            lastOffset = i + totalsize;
 		}
 	}
+    ct = lastOffset;
+    while ((uint8_t)romBuf[ct] == 0xFF)
+    {
+        ct++;
+    }
+    int freeSpace = ct - lastOffset;
+    return freeSpace;
 }

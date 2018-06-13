@@ -21,6 +21,7 @@
 		87B9FBA720CD9D830033739B /* ROMParser.c in Sources */ = {isa = PBXBuildFile; fileRef = 87B9FBA620CD9D830033739B /* ROMParser.c */; };
 		87B9FBAC20CE17320033739B /* MicrocodeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B9FBAA20CE17320033739B /* MicrocodeEditor.m */; };
 		87B9FBAD20CE17320033739B /* MicrocodeEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87B9FBAB20CE17320033739B /* MicrocodeEditor.xib */; };
+		87FFC54E20D0763B00D7DB08 /* ROMEditor.c in Sources */ = {isa = PBXBuildFile; fileRef = 87FFC54D20D0763B00D7DB08 /* ROMEditor.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,8 @@
 		87B9FBA920CE17320033739B /* MicrocodeEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicrocodeEditor.h; sourceTree = "<group>"; };
 		87B9FBAA20CE17320033739B /* MicrocodeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MicrocodeEditor.m; sourceTree = "<group>"; };
 		87B9FBAB20CE17320033739B /* MicrocodeEditor.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MicrocodeEditor.xib; sourceTree = "<group>"; };
+		87FFC54D20D0763B00D7DB08 /* ROMEditor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ROMEditor.c; sourceTree = "<group>"; };
+		87FFC54F20D0764500D7DB08 /* ROMEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ROMEditor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +134,8 @@
 				87B9FBAB20CE17320033739B /* MicrocodeEditor.xib */,
 				87B9FBA620CD9D830033739B /* ROMParser.c */,
 				87B9FBA820CD9D8E0033739B /* ROMParser.h */,
+				87FFC54D20D0763B00D7DB08 /* ROMEditor.c */,
+				87FFC54F20D0764500D7DB08 /* ROMEditor.h */,
 				87B9FB8920CD9D490033739B /* Images.xcassets */,
 				87B9FB7820CD9D490033739B /* Supporting Files */,
 			);
@@ -266,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87FFC54E20D0763B00D7DB08 /* ROMEditor.c in Sources */,
 				87B9FBAC20CE17320033739B /* MicrocodeEditor.m in Sources */,
 				87B9FB8520CD9D490033739B /* AppDelegate.m in Sources */,
 				87B9FBA720CD9D830033739B /* ROMParser.c in Sources */,
@@ -484,6 +490,7 @@
 				87B9FBA120CD9D490033739B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		87B9FBA220CD9D490033739B /* Build configuration list for PBXNativeTarget "Apple Microcode ToolTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +499,7 @@
 				87B9FBA420CD9D490033739B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

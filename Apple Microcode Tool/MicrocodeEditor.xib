@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MicrocodeEditor">
             <connections>
+                <outlet property="freeSpaceLabel" destination="cm9-c7-Whz" id="rWG-gX-DrT"/>
                 <outlet property="microcodeTable" destination="rCf-L4-dMg" id="Nni-vu-jBr"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -15,22 +16,22 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="documentWindow" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <rect key="contentRect" x="196" y="240" width="718" height="194"/>
+            <rect key="contentRect" x="196" y="240" width="793" height="216"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1578"/>
-            <value key="minSize" type="size" width="718" height="194"/>
+            <value key="minSize" type="size" width="793" height="216"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="718" height="194"/>
+                <rect key="frame" x="0.0" y="0.0" width="793" height="216"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="XEh-Dv-lGC">
-                        <rect key="frame" x="20" y="20" width="678" height="135"/>
+                        <rect key="frame" x="20" y="42" width="753" height="135"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="onx-fW-HG2">
-                            <rect key="frame" x="1" y="17" width="676" height="117"/>
+                            <rect key="frame" x="1" y="17" width="751" height="117"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" headerView="A8v-9b-cDn" id="rCf-L4-dMg">
-                                    <rect key="frame" x="0.0" y="0.0" width="676" height="117"/>
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveColumns="NO" typeSelect="NO" headerView="A8v-9b-cDn" id="rCf-L4-dMg">
+                                    <rect key="frame" x="0.0" y="0.0" width="751" height="117"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,7 +50,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="revision" editable="NO" width="66.5390625" minWidth="40" maxWidth="1000" id="x3c-bN-4HL">
+                                        <tableColumn identifier="revision" editable="NO" width="75.55078125" minWidth="40" maxWidth="1000" id="x3c-bN-4HL">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Revision">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -88,7 +89,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="platformid" editable="NO" width="83.23046875" minWidth="10" maxWidth="3.4028234663852886e+38" id="v6K-8f-pLk">
+                                        <tableColumn identifier="platformid" editable="NO" width="68.9453125" minWidth="10" maxWidth="3.4028234663852886e+38" id="v6K-8f-pLk">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Platform ID">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -114,7 +115,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="size" editable="NO" width="69.875" minWidth="10" maxWidth="3.4028234663852886e+38" id="zV9-9h-nhH">
+                                        <tableColumn identifier="size" editable="NO" width="109.5859375" minWidth="10" maxWidth="3.4028234663852886e+38" id="zV9-9h-nhH">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Size">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -127,7 +128,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="action" editable="NO" width="89" minWidth="10" maxWidth="3.4028234663852886e+38" id="VLz-wV-veO">
+                                        <tableColumn identifier="action" editable="NO" width="129.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="VLz-wV-veO">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Action">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -146,7 +147,7 @@
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="OCi-Pr-a5U">
-                            <rect key="frame" x="1" y="118" width="676" height="16"/>
+                            <rect key="frame" x="1" y="118" width="751" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="0Rk-TI-jzM">
@@ -154,12 +155,12 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="A8v-9b-cDn">
-                            <rect key="frame" x="0.0" y="0.0" width="676" height="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="751" height="17"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="oG7-I3-R4q">
-                        <rect key="frame" x="18" y="163" width="75" height="17"/>
+                        <rect key="frame" x="18" y="185" width="75" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Microcodes" id="DdZ-gN-Qrl">
                             <font key="font" metaFont="system"/>
@@ -167,8 +168,18 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="cm9-c7-Whz">
+                        <rect key="frame" x="385" y="3" width="390" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Free Space in Microcode Section:" id="jcD-qC-0vv">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
+            <contentBorderThickness minY="22"/>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
