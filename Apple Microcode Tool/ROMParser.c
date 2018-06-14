@@ -47,6 +47,10 @@ off_t locateMicrocodeBlockOffset(char *romBuf, long bufSize, uint8_t index)
             {
                 break;
             }
+            else
+            {
+                offset = -1;
+            }
         }
     }
 	return offset;
