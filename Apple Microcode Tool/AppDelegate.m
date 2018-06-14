@@ -12,15 +12,16 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    //[self openROMFile:self];
+    
 }
--(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
+    [self openFile:[NSURL fileURLWithPath:filename]];
     return YES;
 }
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
 {
-    [self openFile:[NSURL URLWithString:[[filenames objectAtIndex:0] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    [self openFile:[NSURL fileURLWithPath:[filenames objectAtIndex:0]]];
 }
 - (IBAction)openROMFile:(id)sender
 {
@@ -41,11 +42,10 @@
     {
         openMCEditors = [[NSMutableArray alloc] init];
     }
-    MicrocodeEditor *mce = [[MicrocodeEditor alloc] initWithROMAtPath:selectedFile];
     BOOL isOpen = NO;
     for (MicrocodeEditor *m in openMCEditors)
     {
-        if ([m isEqualTo:mce])
+        if ([m.romPath isEqualToString:selectedFile])
         {
             isOpen = YES;
             [m.window makeKeyAndOrderFront:self];
@@ -53,6 +53,7 @@
     }
     if (!isOpen)
     {
+        MicrocodeEditor *mce = [[MicrocodeEditor alloc] initWithROMAtPath:selectedFile];
         mce.delegate = self;
         [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:fileURL];
         [openMCEditors addObject:mce];

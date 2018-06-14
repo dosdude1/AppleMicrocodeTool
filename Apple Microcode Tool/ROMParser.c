@@ -39,6 +39,8 @@ off_t locateMicrocodeBlockOffset(char *romBuf, long bufSize, uint8_t index)
         }
         if (found == 1)
         {
+            found = 0;
+            ct = 0;
             offset = i+OFFSET_FROM_SEARCH_DATA;
             numFound ++;
             if (index + 1 == numFound)
@@ -143,11 +145,15 @@ int getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[])
             lastOffset = i + totalsize;
 		}
 	}
-    ct = lastOffset;
-    while ((uint8_t)romBuf[ct] == 0xFF)
+    if (ct > 0)
     {
-        ct++;
+        ct = lastOffset;
+        while ((uint8_t)romBuf[ct] == 0xFF)
+        {
+            ct++;
+        }
+        int freeSpace = ct - lastOffset;
+        return freeSpace;
     }
-    int freeSpace = ct - lastOffset;
-    return freeSpace;
+    return 0;
 }

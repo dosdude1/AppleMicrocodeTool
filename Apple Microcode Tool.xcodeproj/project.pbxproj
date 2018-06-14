@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		874A6BD720D206A60033053F /* cpu.icns in Resources */ = {isa = PBXBuildFile; fileRef = 874A6BD620D206A60033053F /* cpu.icns */; };
 		87B9FB7220CD9D490033739B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87B9FB7120CD9D490033739B /* Cocoa.framework */; };
 		87B9FB7C20CD9D490033739B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87B9FB7A20CD9D490033739B /* InfoPlist.strings */; };
 		87B9FB7E20CD9D490033739B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B9FB7D20CD9D490033739B /* main.m */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		874A6BD620D206A60033053F /* cpu.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cpu.icns; sourceTree = "<group>"; };
 		87B9FB6E20CD9D490033739B /* Apple Microcode Tool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apple Microcode Tool.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B9FB7120CD9D490033739B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		87B9FB7420CD9D490033739B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -136,6 +138,7 @@
 				87B9FBA820CD9D8E0033739B /* ROMParser.h */,
 				87FFC54D20D0763B00D7DB08 /* ROMEditor.c */,
 				87FFC54F20D0764500D7DB08 /* ROMEditor.h */,
+				874A6BD620D206A60033053F /* cpu.icns */,
 				87B9FB8920CD9D490033739B /* Images.xcassets */,
 				87B9FB7820CD9D490033739B /* Supporting Files */,
 			);
@@ -252,6 +255,7 @@
 				87B9FBAD20CE17320033739B /* MicrocodeEditor.xib in Resources */,
 				87B9FB8A20CD9D490033739B /* Images.xcassets in Resources */,
 				87B9FB8220CD9D490033739B /* Credits.rtf in Resources */,
+				874A6BD720D206A60033053F /* cpu.icns in Resources */,
 				87B9FB8820CD9D490033739B /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

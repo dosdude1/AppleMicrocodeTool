@@ -11,7 +11,6 @@
 
 void clearSection(char *buf, off_t startOffset, long size)
 {
-    printf("Clearing data %llX, %lX\n", startOffset, size);
     for (off_t i=startOffset; i<startOffset + size; i++)
     {
         buf[i] = 0xFF;

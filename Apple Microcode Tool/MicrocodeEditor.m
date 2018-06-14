@@ -31,8 +31,38 @@
     [self.window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [self.microcodeTable setDelegate:self];
     [self.microcodeTable setDataSource:self];
+    [[self microcodeTable] registerForDraggedTypes:[NSArray arrayWithObject:(NSString*)kUTTypeFileURL]];
     [self setUpMenu];
     [self updateUIWithFreeSpace];
+}
+- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
+{
+    //get the file URLs from the pasteboard
+    NSPasteboard* pb = info.draggingPasteboard;
+    
+    //list the file type UTIs we want to accept
+    NSArray* acceptedTypes = [NSArray arrayWithObject:(NSString*)kUTTypeData];
+    
+    NSArray* urls = [pb readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
+                                      options:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:YES],NSPasteboardURLReadingFileURLsOnlyKey,
+                                               acceptedTypes, NSPasteboardURLReadingContentsConformToTypesKey,
+                                               nil]];
+    
+    //only allow drag if there is exactly one file
+    if(urls.count != 1)
+        return NSDragOperationNone;
+    
+    return NSDragOperationCopy;
+}
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
+{
+    NSPasteboard* pboard = [info draggingPasteboard];
+    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    [self addMicrocodeFromFileAtPath:[files objectAtIndex:0] toIndex:row];
+    
+    
+    return YES;
 }
 -(id)init
 {
@@ -50,12 +80,14 @@
 -(void)setUpMenu
 {
     NSMenu *contextMenu = [[NSMenu alloc] init];
-    NSMenuItem *addItem = [[NSMenuItem alloc] initWithTitle:@"Add Microcode" action:@selector(addMicrocode) keyEquivalent:@""];
+    NSMenuItem *addItem = [[NSMenuItem alloc] initWithTitle:@"Add Microcode..." action:@selector(addMicrocode:) keyEquivalent:@""];
     [contextMenu addItem:addItem];
-    NSMenuItem *deleteItem = [[NSMenuItem alloc] initWithTitle:@"Delete Microcode" action:@selector(removeMicrocode) keyEquivalent:@""];
+    NSMenuItem *deleteItem = [[NSMenuItem alloc] initWithTitle:@"Delete Microcode" action:@selector(removeMicrocode:) keyEquivalent:@""];
     [contextMenu addItem:deleteItem];
+    NSMenuItem *extractItem = [[NSMenuItem alloc] initWithTitle:@"Extract Microcode..." action:@selector(extractMicrocode:) keyEquivalent:@""];
+    [contextMenu addItem:extractItem];
     [contextMenu addItem:[NSMenuItem separatorItem]];
-    NSMenuItem *cancelItem = [[NSMenuItem alloc] initWithTitle:@"Cancel Action" action:@selector(cancelAction) keyEquivalent:@""];
+    NSMenuItem *cancelItem = [[NSMenuItem alloc] initWithTitle:@"Cancel Action" action:@selector(cancelAction:) keyEquivalent:@""];
     [contextMenu addItem:cancelItem];
     [self.microcodeTable setMenu:contextMenu];
     [contextMenu setDelegate:self];
@@ -63,6 +95,7 @@
 }
 -(void)parseROM
 {
+    [self.window setDocumentEdited:NO];
     microcodes = [[NSMutableArray alloc] init];
     FILE *rom = fopen([self.romPath UTF8String], "rb");
     long fsize;
@@ -74,6 +107,11 @@
     fclose(rom);
     fileSize = fsize;
     firstBlockOffset = locateMicrocodeBlockOffset(fileBuf, fsize, 0);
+    if (firstBlockOffset == -1)
+    {
+        [self handleError:errInvalidROMFile];
+        return;
+    }
     secondBlockOffset = locateMicrocodeBlockOffset(fileBuf, fsize, 1);
     endOffsetOfLastBlock = locateEndOffsetOfLastSection(fileBuf, fsize);
     if (secondBlockOffset != -1)
@@ -99,6 +137,7 @@
             [microcodes addObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:entries[i].cpuid], @"revision":[NSNumber numberWithUnsignedInt:entries[i].updateRev], @"checksum":[NSNumber numberWithUnsignedInt:entries[i].crc], @"date": date, @"platformid": [NSString stringWithFormat:@"%s", entries[i].platformID], @"offset":[NSNumber numberWithUnsignedInt:entries[i].offset], @"size":[NSNumber numberWithUnsignedInt:entries[i].size], @"action":@"", @"contentFile":@""}]];
         }
     }
+    [self updateUIWithFreeSpace];
     [self.microcodeTable reloadData];
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -154,6 +193,32 @@
 {
     [self.delegate microcodeEditorWillClose:self];
 }
+-(BOOL)windowShouldClose:(id)sender
+{
+    if ([self.window isDocumentEdited])
+    {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:[NSString stringWithFormat:@"Do you want to save the changes made to the document \"%@\"?", [self.romPath lastPathComponent]]];
+        [alert setInformativeText:@"Your changes will be lost if you don’t save them."];
+        [alert addButtonWithTitle:@"Save"];
+        [alert addButtonWithTitle:@"Cancel"];
+        [alert addButtonWithTitle:@"Don't Save"];
+        [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnHandler) {
+            switch (returnHandler)
+            {
+                case NSAlertFirstButtonReturn:
+                    [self saveFileToPath:self.romPath];
+                    [self.window close];
+                    break;
+                case NSAlertThirdButtonReturn:
+                    [self.window close];
+                    break;
+            }
+        }];
+        return NO;
+    }
+    return YES;
+}
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
     NSInteger clickedRow=[self.microcodeTable clickedRow];
@@ -164,24 +229,45 @@
     if (clickedRow > -1)
     {
         [[self.microcodeTable.menu itemAtIndex:1] setEnabled:YES];
+        [[self.microcodeTable.menu itemAtIndex:2] setEnabled:YES];
         if (![[[microcodes objectAtIndex:clickedRow] objectForKey:@"action"] isEqualToString:@""])
         {
-            [[self.microcodeTable.menu itemAtIndex:3] setEnabled:YES];
+            [[self.microcodeTable.menu itemAtIndex:4] setEnabled:YES];
         }
         else
         {
-            [[self.microcodeTable.menu itemAtIndex:3] setEnabled:NO];
+            [[self.microcodeTable.menu itemAtIndex:4] setEnabled:NO];
         }
     }
     else
     {
         [[self.microcodeTable.menu itemAtIndex:1] setEnabled:NO];
-        [[self.microcodeTable.menu itemAtIndex:3] setEnabled:NO];
+        [[self.microcodeTable.menu itemAtIndex:2] setEnabled:NO];
+        [[self.microcodeTable.menu itemAtIndex:4] setEnabled:NO];
+    }
+}
+-(void)updateDocumentEdited
+{
+    BOOL edited = NO;
+    for (NSDictionary *microcode in microcodes)
+    {
+        if (![[microcode objectForKey:@"action"] isEqualToString:@""])
+        {
+            edited = YES;
+        }
+    }
+    if (edited)
+    {
+        [self.window setDocumentEdited:YES];
+    }
+    else
+    {
+        [self.window setDocumentEdited:NO];
     }
 }
 - (IBAction)saveDocument:(id)sender
 {
-    
+    [self saveFileToPath:self.romPath];
 }
 - (IBAction)saveDocumentAs:(id)sender
 {
@@ -263,12 +349,16 @@
     FILE *save = fopen([path UTF8String], "wb");
     fwrite(buf, 1, fileSize, save);
     fclose(save);
+    self.romPath = path;
+    [self parseROM];
+    [self.window setTitleWithRepresentedFilename:self.romPath];
+    [self updateUIWithFreeSpace];
 }
 -(void)updateUIWithFreeSpace
 {
-    [self.freeSpaceLabel setStringValue:[NSString stringWithFormat:@"Free Space in Microcode Section: %02X (%d KB)", freeSpace, freeSpace/1024]];
+    [self.freeSpaceLabel setStringValue:[NSString stringWithFormat:@"Free Space in Microcode Section: %02lX (%ld KB)", freeSpace, freeSpace/1024]];
 }
--(void)cancelAction
+-(void)cancelAction:(id)sender
 {
     NSInteger clickedRow=[self.microcodeTable clickedRow];
     if (clickedRow == -1)
@@ -316,11 +406,12 @@
         }
     }
     [self.microcodeTable reloadData];
+    [self updateDocumentEdited];
 }
--(void)removeMicrocode
+-(void)removeMicrocode:(id)sender
 {
     NSIndexSet *indices=[self.microcodeTable selectedRowIndexes];
-    if (indices.count > 1)
+    if (indices.count >= 1)
     {
         NSUInteger lastIndex=[indices firstIndex];
         for (int i=0; i<indices.count; i++)
@@ -350,8 +441,9 @@
         }
     }
     [self.microcodeTable reloadData];
+    [self updateDocumentEdited];
 }
--(void)addMicrocode
+-(void)addMicrocode:(id)sender
 {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setCanChooseFiles:YES];
@@ -364,12 +456,38 @@
         {
             NSArray* files = [panel URLs];
             NSString *microcodeFile = [[files objectAtIndex:0] path];
-            [self addMicrocodeFromFileAtPath:microcodeFile];
+            [self addMicrocodeFromFileAtPath:microcodeFile toIndex:microcodes.count];
         }
     }];
     
 }
--(void)addMicrocodeFromFileAtPath:(NSString *)path
+-(void)extractMicrocode:(id)sender
+{
+    NSInteger clickedRow=[self.microcodeTable clickedRow];
+    if (clickedRow == -1)
+    {
+        clickedRow=[self.microcodeTable selectedRow];
+    }
+    NSIndexSet *clickedRows=[self.microcodeTable selectedRowIndexes];
+    if (clickedRow>-1 && clickedRows.count<=1)
+    {
+        NSDictionary *microcode = [microcodes objectAtIndex:clickedRow];
+        NSString *defaultFileName = [NSString stringWithFormat:@"cpu%02lX_plat%@_ver%08lX_%@_PRD_%02lX", [[microcode objectForKey:@"cpuid"] unsignedIntegerValue], [microcode objectForKey:@"platformid"], [[microcode objectForKey:@"revision"]unsignedIntegerValue], [[microcode objectForKey:@"date"] stringByReplacingOccurrencesOfString:@"/" withString:@"-"], [[microcode objectForKey:@"checksum"] unsignedIntegerValue]];
+        NSSavePanel *save = [[NSSavePanel alloc] init];
+        [save setTitle:@"Extract Microcode"];
+        [save setPrompt:@"Extract Microcode"];
+        [save setAllowedFileTypes:@[@"bin"]];
+        [save setNameFieldStringValue:defaultFileName];
+        [save beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+            if (result == NSOKButton)
+            {
+                NSString *path = [[save URL] path];
+                [self extractMicrocodeAtIndex:clickedRow toPath:path];
+            }
+        }];
+    }
+}
+-(void)addMicrocodeFromFileAtPath:(NSString *)path toIndex:(NSInteger)index
 {
     FILE *rom = fopen([path UTF8String], "rb");
     long fsize;
@@ -382,8 +500,9 @@
     microcode_entry entries[1] = { 0 };
     getMicrocodeEntries(buf, fsize, entries);
     microcode_entry toAdd = entries[0];
-    if (toAdd.cpuid == 0)
+    if (toAdd.cpuid == 0 || toAdd.size != fsize)
     {
+        [self handleError:errInvalidMicrocodeFile];
         return;
     }
     NSString *date = [NSString stringWithFormat:@"%02X%02X/%02X/%02X", toAdd.date.yearpre, toAdd.date.yearsuf, toAdd.date.month, toAdd.date.day];
@@ -427,7 +546,7 @@
     {
         if (toAdd.size <= freeSpace)
         {
-            [microcodes addObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:toAdd.cpuid], @"revision":[NSNumber numberWithUnsignedInt:toAdd.updateRev], @"checksum":[NSNumber numberWithUnsignedInt:toAdd.crc], @"date": date, @"platformid": [NSString stringWithFormat:@"%s", toAdd.platformID], @"offset":[NSNumber numberWithUnsignedInt:0], @"size":[NSNumber numberWithUnsignedInt:toAdd.size], @"action":@"Add", @"contentFile":path}]];
+            [microcodes insertObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:toAdd.cpuid], @"revision":[NSNumber numberWithUnsignedInt:toAdd.updateRev], @"checksum":[NSNumber numberWithUnsignedInt:toAdd.crc], @"date": date, @"platformid": [NSString stringWithFormat:@"%s", toAdd.platformID], @"offset":[NSNumber numberWithUnsignedInt:0], @"size":[NSNumber numberWithUnsignedInt:toAdd.size], @"action":@"Add", @"contentFile":path}] atIndex:index];
             freeSpace -= toAdd.size;
             
             //[(NSTextFieldCell *)[self.microcodeTable preparedCellAtColumn:7 row:microcodes.count-1] setTextColor:[NSColor greenColor]];
@@ -439,6 +558,17 @@
         }
     }
     [self.microcodeTable reloadData];
+    [self updateDocumentEdited];
+}
+-(void)extractMicrocodeAtIndex:(NSInteger)index toPath:(NSString *)path
+{
+    off_t offset = [[[microcodes objectAtIndex:index] objectForKey:@"offset"] unsignedIntegerValue];
+    long size = [[[microcodes objectAtIndex:index] objectForKey:@"size"] unsignedIntegerValue];
+    char *buf = malloc(size);
+    appendData(fileBuf, buf, offset, 0, size);
+    FILE *save = fopen([path UTF8String], "wb");
+    fwrite(buf, 1, size, save);
+    fclose(save);
 }
 -(void)handleError:(err)error
 {
@@ -450,6 +580,18 @@
         case errNoFreeSpace:
             [alert setMessageText:@"Not Enough Free Space"];
             [alert setInformativeText:@"There is not enough free space in the microcode section of this ROM to perform that action."];
+            break;
+        case errInvalidMicrocodeFile:
+            [alert setMessageText:@"Invalid Microcode File"];
+            [alert setInformativeText:@"This file does not contain a valid microcode."];
+            break;
+        case errInvalidROMFile:
+            [alert setMessageText:@"Invalid ROM File"];
+            [alert setInformativeText:@"This file is not a valid ROM dump."];
+            break;
+        default:
+            [alert setMessageText:@"Unknown Error"];
+            [alert setInformativeText:[NSString stringWithFormat:@"An unknown error occurred (%d).", error]];
             break;
     }
     [alert beginSheetModalForWindow:self.window modalDelegate:nil didEndSelector:nil contextInfo:nil];

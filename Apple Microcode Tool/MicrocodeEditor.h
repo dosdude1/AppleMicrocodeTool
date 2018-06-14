@@ -11,7 +11,9 @@
 #include "ROMEditor.h"
 
 typedef enum {
-    errNoFreeSpace = 0
+    errNoFreeSpace = 0,
+    errInvalidMicrocodeFile = 1,
+    errInvalidROMFile = 2
 }err;
 
 
@@ -26,11 +28,11 @@ typedef enum {
     NSMutableDictionary *replacedMicrocodes;
     long fileSize;
     char *fileBuf;
-    unsigned int freeSpace;
+    long freeSpace;
     off_t firstBlockOffset;
     off_t secondBlockOffset;
     off_t endOffsetOfLastBlock;
-    unsigned int totalBlockSize;
+    long totalBlockSize;
 }
 @property (nonatomic, strong) id <MicrocodeEditorDelegate> delegate;
 -(instancetype)initWithROMAtPath:(NSString *)inRomPath;
