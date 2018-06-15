@@ -109,10 +109,18 @@
     firstBlockOffset = locateMicrocodeBlockOffset(fileBuf, fsize, 0);
     if (firstBlockOffset == -1)
     {
-        [self handleError:errInvalidROMFile];
-        return;
+        firstBlockOffset = locateMicrocodeBlockOffsetUsingZeroGUID(fileBuf, fsize, 0);
+        if (firstBlockOffset == -1)
+        {
+            [self handleError:errInvalidROMFile];
+            return;
+        }
+        secondBlockOffset = -1;
     }
-    secondBlockOffset = locateMicrocodeBlockOffset(fileBuf, fsize, 1);
+    else
+    {
+        secondBlockOffset = locateMicrocodeBlockOffset(fileBuf, fsize, 1);
+    }
     endOffsetOfLastBlock = locateEndOffsetOfLastSection(fileBuf, fsize);
     if (secondBlockOffset != -1)
     {
@@ -319,7 +327,7 @@
             lastOffset = appendData(contentBuf, buf, 0, lastOffset + 1, fsize);
         }
     }
-    if (secondBlockOffset > 1)
+    if (secondBlockOffset != -1)
     {
         off_t lastOffset = secondBlockOffset - 1;
         for (NSDictionary *microcode in microcodes)

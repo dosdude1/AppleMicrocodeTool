@@ -55,6 +55,52 @@ off_t locateMicrocodeBlockOffset(char *romBuf, long bufSize, uint8_t index)
     }
 	return offset;
 }
+off_t locateMicrocodeBlockOffsetUsingZeroGUID(char *romBuf, long bufSize, uint8_t index)
+{
+    uint8_t bytes [] = {0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x5F, 0x46, 0x56, 0x48, 0xFF, 0x8E, 0xFF, 0xFF, 0x48, 0x00, 0xF9, 0x10, 0x00, 0x00, 0x00, 0x01, 0x0C};
+    uint8_t OFFSET_FROM_SEARCH_DATA = 200;
+    uint8_t BYTES_TO_SEARCH = 24;
+    off_t offset = -1;
+    int ct = 0;
+    int found = 0;
+    int numFound = 0;
+    for (int i=0; i<bufSize; i++)
+    {
+        if ((uint8_t)romBuf[i] == bytes[ct])
+        {
+            if (ct < BYTES_TO_SEARCH)
+            {
+                ct++;
+            }
+            if (ct == BYTES_TO_SEARCH)
+            {
+                found = 1;
+            }
+        }
+        else
+        {
+            found = 0;
+            ct = 0;
+        }
+        if (found == 1)
+        {
+            found = 0;
+            ct = 0;
+            offset = i+OFFSET_FROM_SEARCH_DATA;
+            numFound ++;
+            if (index + 1 == numFound)
+            {
+                break;
+            }
+            else
+            {
+                offset = -1;
+            }
+        }
+    }
+	return offset;
+}
+
 off_t locateEndOffsetOfLastSection(char *romBuf, long bufSize)
 {
     uint8_t OFFSET_FROM_SEARCH_DATA = 34;
@@ -83,6 +129,7 @@ off_t locateEndOffsetOfLastSection(char *romBuf, long bufSize)
         }
         if (found == 1)
         {
+            found = 0;
             offset = i - OFFSET_FROM_SEARCH_DATA;
         }
     }

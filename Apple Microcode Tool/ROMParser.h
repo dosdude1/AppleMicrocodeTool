@@ -31,5 +31,6 @@ typedef struct {
 }microcode_entry;
 
 off_t locateMicrocodeBlockOffset(char *romBuf, long bufSize, uint8_t index);
+off_t locateMicrocodeBlockOffsetUsingZeroGUID(char *romBuf, long bufSize, uint8_t index);
 off_t locateEndOffsetOfLastSection(char *romBuf, long bufSize);
 int getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[]);
