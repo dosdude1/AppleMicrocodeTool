@@ -158,19 +158,6 @@ int getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[])
 			for (j=0; j<totalsize; j+=4) sum += *(unsigned int*)(&romBuf[i+j]);
 			if (sum != 0) continue;
 			
-            char platform[50] = {'\0'};
-            int flag = 0;
-			for (int j=0; j<=7; ++j)
-			{
-				if ((1<<j) & *(unsigned int*)(&romBuf[i+24]))
-				{
-					if (flag == 1) {
-                        strcat(platform, ",");
-					}
-					flag = 1;
-                    sprintf(platform, "%s%d", platform, j);
-				}
-			}
             int exists = 0;
             for (int c=0; c < ct; c++)
             {
@@ -188,7 +175,7 @@ int getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[])
                 entries[ct].date.month = romBuf[i+11];
                 entries[ct].date.day = romBuf[i+10];
                 entries[ct].crc = *(unsigned int*)(&romBuf[i+16]);
-                strcpy(entries[ct].platformID, platform);
+                entries[ct].platformID = *(unsigned int*)(&romBuf[i+24]);;
                 entries[ct].offset = i;
                 entries[ct].size = totalsize;
                 ct++;

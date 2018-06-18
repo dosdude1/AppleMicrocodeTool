@@ -25,7 +25,7 @@ typedef struct {
     unsigned int updateRev;
     date date;
     unsigned int crc;
-    char platformID[50];
+    unsigned int platformID;
     unsigned int offset;
     unsigned int size;
 }microcode_entry;

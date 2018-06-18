@@ -142,7 +142,7 @@
         if (entries[i].cpuid != 0)
         {
             NSString *date = [NSString stringWithFormat:@"%02X%02X/%02X/%02X", entries[i].date.yearpre, entries[i].date.yearsuf, entries[i].date.month, entries[i].date.day];
-            [microcodes addObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:entries[i].cpuid], @"revision":[NSNumber numberWithUnsignedInt:entries[i].updateRev], @"checksum":[NSNumber numberWithUnsignedInt:entries[i].crc], @"date": date, @"platformid": [NSString stringWithFormat:@"%s", entries[i].platformID], @"offset":[NSNumber numberWithUnsignedInt:entries[i].offset], @"size":[NSNumber numberWithUnsignedInt:entries[i].size], @"action":@"", @"contentFile":@""}]];
+            [microcodes addObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:entries[i].cpuid], @"revision":[NSNumber numberWithUnsignedInt:entries[i].updateRev], @"checksum":[NSNumber numberWithUnsignedInt:entries[i].crc], @"date": date, @"platformid": [NSNumber numberWithUnsignedInt:entries[i].platformID], @"offset":[NSNumber numberWithUnsignedInt:entries[i].offset], @"size":[NSNumber numberWithUnsignedInt:entries[i].size], @"action":@"", @"contentFile":@""}]];
         }
     }
     [self updateUIWithFreeSpace];
@@ -172,7 +172,7 @@
     }
     else if ([[tableColumn identifier] isEqualToString:@"platformid"])
     {
-        return [NSString stringWithFormat:@"%@", [[microcodes objectAtIndex:row] objectForKey:@"platformid"]];
+        return [NSString stringWithFormat:@"%02lX", [[[microcodes objectAtIndex:row] objectForKey:@"platformid"] unsignedIntegerValue]];
     }
     else if ([[tableColumn identifier] isEqualToString:@"offset"])
     {
@@ -237,7 +237,14 @@
     if (clickedRow > -1)
     {
         [[self.microcodeTable.menu itemAtIndex:1] setEnabled:YES];
-        [[self.microcodeTable.menu itemAtIndex:2] setEnabled:YES];
+        if (![[[microcodes objectAtIndex:clickedRow] objectForKey:@"action"] isEqualToString:@"Add"] && ![[[microcodes objectAtIndex:clickedRow] objectForKey:@"action"] isEqualToString:@"Replace"])
+        {
+            [[self.microcodeTable.menu itemAtIndex:2] setEnabled:YES];
+        }
+        else
+        {
+            [[self.microcodeTable.menu itemAtIndex:2] setEnabled:NO];
+        }
         if (![[[microcodes objectAtIndex:clickedRow] objectForKey:@"action"] isEqualToString:@""])
         {
             [[self.microcodeTable.menu itemAtIndex:4] setEnabled:YES];
@@ -479,20 +486,23 @@
     NSIndexSet *clickedRows=[self.microcodeTable selectedRowIndexes];
     if (clickedRow>-1 && clickedRows.count<=1)
     {
-        NSDictionary *microcode = [microcodes objectAtIndex:clickedRow];
-        NSString *defaultFileName = [NSString stringWithFormat:@"cpu%02lX_plat%@_ver%08lX_%@_PRD_%02lX", [[microcode objectForKey:@"cpuid"] unsignedIntegerValue], [microcode objectForKey:@"platformid"], [[microcode objectForKey:@"revision"]unsignedIntegerValue], [[microcode objectForKey:@"date"] stringByReplacingOccurrencesOfString:@"/" withString:@"-"], [[microcode objectForKey:@"checksum"] unsignedIntegerValue]];
-        NSSavePanel *save = [[NSSavePanel alloc] init];
-        [save setTitle:@"Extract Microcode"];
-        [save setPrompt:@"Extract Microcode"];
-        [save setAllowedFileTypes:@[@"bin"]];
-        [save setNameFieldStringValue:defaultFileName];
-        [save beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
-            if (result == NSOKButton)
-            {
-                NSString *path = [[save URL] path];
-                [self extractMicrocodeAtIndex:clickedRow toPath:path];
-            }
-        }];
+        if (![[[microcodes objectAtIndex:clickedRow] objectForKey:@"action"] isEqualToString:@"Add"] && ![[[microcodes objectAtIndex:clickedRow] objectForKey:@"action"] isEqualToString:@"Replace"])
+        {
+            NSDictionary *microcode = [microcodes objectAtIndex:clickedRow];
+            NSString *defaultFileName = [NSString stringWithFormat:@"cpu%02lX_plat%02lX_ver%08lX_%@_PRD_%02lX", [[microcode objectForKey:@"cpuid"] unsignedIntegerValue], [[microcode objectForKey:@"platformid"] unsignedIntegerValue], [[microcode objectForKey:@"revision"]unsignedIntegerValue], [[microcode objectForKey:@"date"] stringByReplacingOccurrencesOfString:@"/" withString:@"-"], [[microcode objectForKey:@"checksum"] unsignedIntegerValue]];
+            NSSavePanel *save = [[NSSavePanel alloc] init];
+            [save setTitle:@"Extract Microcode"];
+            [save setPrompt:@"Extract Microcode"];
+            [save setAllowedFileTypes:@[@"bin"]];
+            [save setNameFieldStringValue:defaultFileName];
+            [save beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+                if (result == NSOKButton)
+                {
+                    NSString *path = [[save URL] path];
+                    [self extractMicrocodeAtIndex:clickedRow toPath:path];
+                }
+            }];
+        }
     }
 }
 -(void)addMicrocodeFromFileAtPath:(NSString *)path toIndex:(NSInteger)index
@@ -505,7 +515,7 @@
     char *buf = malloc(fsize);
     fread(buf, 1, fsize, rom);
     fclose(rom);
-    microcode_entry entries[1] = { 0 };
+    microcode_entry entries[50] = { 0 };
     getMicrocodeEntries(buf, fsize, entries);
     microcode_entry toAdd = entries[0];
     if (toAdd.cpuid == 0 || toAdd.size != fsize)
@@ -519,14 +529,14 @@
     for (int i=0; i<microcodes.count; i++)
     {
         NSUInteger CPUID = [[[microcodes objectAtIndex:i] objectForKey:@"cpuid"] unsignedIntegerValue];
-        NSString *platformID = [[microcodes objectAtIndex:i] objectForKey:@"platformid"];
+        NSUInteger platformID = [[[microcodes objectAtIndex:i] objectForKey:@"platformid"] unsignedIntegerValue];
         NSUInteger checksum = [[[microcodes objectAtIndex:i] objectForKey:@"checksum"] unsignedIntegerValue];
         if (checksum == toAdd.crc)
         {
             exists = YES;
             break;
         }
-        if (CPUID == toAdd.cpuid && [platformID isEqualToString:[NSString stringWithUTF8String:toAdd.platformID]])
+        if (CPUID == toAdd.cpuid && platformID == toAdd.platformID)
         {
             replacement = YES;
             NSUInteger newFreeSpace = freeSpace + [[[microcodes objectAtIndex:i] objectForKey:@"size"] unsignedIntegerValue];
@@ -537,7 +547,7 @@
                     replacedMicrocodes = [[NSMutableDictionary alloc] init];
                 }
                 [replacedMicrocodes setObject:[microcodes objectAtIndex:i] forKey:[NSNumber numberWithInt:i]];
-                [microcodes replaceObjectAtIndex:i withObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:toAdd.cpuid], @"revision":[NSNumber numberWithUnsignedInt:toAdd.updateRev], @"checksum":[NSNumber numberWithUnsignedInt:toAdd.crc], @"date": date, @"platformid": [NSString stringWithFormat:@"%s", toAdd.platformID], @"offset":[NSNumber numberWithUnsignedInt:0], @"size":[NSNumber numberWithUnsignedInt:toAdd.size], @"action":@"Replace", @"contentFile":path}]];
+                [microcodes replaceObjectAtIndex:i withObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:toAdd.cpuid], @"revision":[NSNumber numberWithUnsignedInt:toAdd.updateRev], @"checksum":[NSNumber numberWithUnsignedInt:toAdd.crc], @"date": date, @"platformid": [NSNumber numberWithUnsignedInt:toAdd.platformID], @"offset":[NSNumber numberWithUnsignedInt:0], @"size":[NSNumber numberWithUnsignedInt:toAdd.size], @"action":@"Replace", @"contentFile":path}]];
                 freeSpace = (unsigned int)newFreeSpace;
                 freeSpace -= toAdd.size;
                 
@@ -554,7 +564,7 @@
     {
         if (toAdd.size <= freeSpace)
         {
-            [microcodes insertObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:toAdd.cpuid], @"revision":[NSNumber numberWithUnsignedInt:toAdd.updateRev], @"checksum":[NSNumber numberWithUnsignedInt:toAdd.crc], @"date": date, @"platformid": [NSString stringWithFormat:@"%s", toAdd.platformID], @"offset":[NSNumber numberWithUnsignedInt:0], @"size":[NSNumber numberWithUnsignedInt:toAdd.size], @"action":@"Add", @"contentFile":path}] atIndex:index];
+            [microcodes insertObject:[NSMutableDictionary dictionaryWithDictionary:@{@"cpuid": [NSNumber numberWithUnsignedInt:toAdd.cpuid], @"revision":[NSNumber numberWithUnsignedInt:toAdd.updateRev], @"checksum":[NSNumber numberWithUnsignedInt:toAdd.crc], @"date": date, @"platformid": [NSNumber numberWithUnsignedInt:toAdd.platformID], @"offset":[NSNumber numberWithUnsignedInt:0], @"size":[NSNumber numberWithUnsignedInt:toAdd.size], @"action":@"Add", @"contentFile":path}] atIndex:index];
             freeSpace -= toAdd.size;
             
             //[(NSTextFieldCell *)[self.microcodeTable preparedCellAtColumn:7 row:microcodes.count-1] setTextColor:[NSColor greenColor]];
