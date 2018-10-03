@@ -9,10 +9,6 @@
 #ifndef Apple_Microcode_Tool_ROMParser_h
 #define Apple_Microcode_Tool_ROMParser_h
 
-
-
-#endif
-
 typedef struct {
     unsigned int yearpre;
     unsigned int yearsuf;
@@ -34,3 +30,6 @@ off_t locateMicrocodeBlockOffset(char *romBuf, long bufSize, uint8_t index);
 off_t locateMicrocodeBlockOffsetUsingZeroGUID(char *romBuf, long bufSize, uint8_t index);
 off_t locateEndOffsetOfLastSection(char *romBuf, long bufSize);
 int getMicrocodeEntries(char *romBuf, long bufSize, microcode_entry entries[]);
+
+#endif
+

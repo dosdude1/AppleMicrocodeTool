@@ -9,11 +9,9 @@
 #ifndef Apple_Microcode_Tool_ROMEditor_h
 #define Apple_Microcode_Tool_ROMEditor_h
 
-
+void clearSection(char *buf, off_t startOffset, long size);
+off_t appendData(char *buf, char* data, off_t sourceStartOffset, off_t destStartOffset, long size);
 
 #endif
 
-
-void clearSection(char *buf, off_t startOffset, long size);
-off_t appendData(char *buf, char* data, off_t sourceStartOffset, off_t destStartOffset, long size);
 
